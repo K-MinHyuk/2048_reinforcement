@@ -224,7 +224,7 @@ class Env_for_train():
         self.place_random_tiles(self.board, cnt=1)
         done = self.is_done()
         
-        return self.board, reward,done,{}
+        return self.board, reward, done, {}
     
     def is_done(self):
         temp = self.board.copy()
@@ -233,7 +233,7 @@ class Env_for_train():
         
         for action in range(4):
             rotated_obs = np.rot90(temp,k=action)
-            _,updated_obs = self.slide_left_and_merge(rotated_obs)
+            _, updated_obs = self.slide_left_and_merge(rotated_obs)
             if not updated_obs.all():
                 return False
         
@@ -242,10 +242,8 @@ class Env_for_train():
             
         
     def sample_tiles(self, cnt=1):
-
         choices = [2, 4]
         probs = [0.9, 0.1]
-
         tiles = np.random.choice(choices,size=cnt, p=probs)
         return tiles.tolist()
 
@@ -269,10 +267,10 @@ class Env_for_train():
         result=[]
         score = 0
         for row in board:
-            row = np.extract(row>0,row)
+            row = np.extract(row>0, row)
             score_, result_row = self.try_merge(row)
             
-            score+= score_
+            score += score_
             row = np.pad(np.array(result_row), (0, self.width - len(result_row)), 'constant', constant_values=(0,))
             result.append(row)
             
